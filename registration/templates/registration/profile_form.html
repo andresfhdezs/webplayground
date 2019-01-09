@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %} {% load static %} {% block title %}Perfil{% endblock %} {% block content %} {% include 'pages/includes/pages_menu.html'%}
+<style>
+    .errorlist {
+        color: red
+    }
+
+    label {
+        display: none
+    }
+</style>
+<main role="main">
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-md-9 mx-auto mb-5">
+                <h3>Perfil</h3>
+                <form action="" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-2">
+                            {% if request.user.profile.avatar %}
+                            <img src="{{ request.user.profile.avatar.url }}" alt="{{ request.user.name }}" class="img-fluid">
+                            <p class="mt-1">¿Borrar?
+                                <input type="checkbox" id="avatar-clear" name="avatar-clear">
+                            </p>
+                            {% else %}
+                            <img src="{% static 'registration/img/no-avatar.jpg' %}" alt="No Avatar" class="img-fluid"> {% endif %}
+                        </div>
+                        <div class="col-md-10">
+                            <h3>Perfil</h3>
+                            <input type="file" name="avatar" class="from-control-file mt-3" id="id_avatar"> {{form.bio}} {{form.link}}
+                            <input type="email" value="{{ request.user.email }}" class="form-control mt-3" readonly>
+                            <p class="mt-3">Si deseas editar tu email,
+                                <a href="{% url 'profile_email' %}">Click Aquí</a>
+                                <br>  Y si desea cambiar su contraseña
+                                <a href="{% url 'password_change' %}">Click Aquí</a>
+                            </p>
+                            <input type="submit" class="btn btn-primary btn-block mt-3" value="Actualizar" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
